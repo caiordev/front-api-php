@@ -1,6 +1,5 @@
 import { Button, Icon, Paper, TextField, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
-import { Environment } from "../../environment";
 
 interface IFerramentasDaListagemProps {
   textoBotaoNovo?: string;

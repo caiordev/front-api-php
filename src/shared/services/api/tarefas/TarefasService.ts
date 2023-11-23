@@ -101,7 +101,7 @@ const updateStatus = async (
   }
 };
 
-export const PessoasService = {
+export const TarefaService = {
   getAll,
   create,
   getById,
