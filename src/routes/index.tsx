@@ -12,7 +12,7 @@ export const AppRoutes = () => {
     setDrawerOptions([
       {
         label: "Tarefa",
-        icon: "people",
+        icon: "format_list_bulleted",
         path: "/tarefas",
       },
     ]);
