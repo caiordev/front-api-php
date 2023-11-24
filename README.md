@@ -32,7 +32,7 @@ Este projeto é uma crud para tarefas que contém os seguintes requisitos:
 1. Clone este repositório
 
 ```bash
-https://github.com/caiordev/front-api-php.git
+git clone https://github.com/caiordev/front-api-php.git
 ```
 
 2. Vá para a pasta do projeto
