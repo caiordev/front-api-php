@@ -4,11 +4,11 @@ import { Box, Grid, LinearProgress, Paper, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FerramentasDeDetalhe } from "../../shared/components";
-import { VTextField, VForm, useVForm } from "../../shared/forms";
 import { LayoutBaseDePagina } from "../../shared/layouts";
 import { TarefaService } from "../../shared/services/api/tarefas/TarefasService";
 import * as yup from "yup";
-import { IVFormErrors } from "../../shared/forms/IVFormErrors";
+import { IVFormErrors } from "../../shared/forms/forms/IVFormErrors";
+import { useVForm, VForm, VTextField } from "../../shared/forms/forms";
 
 interface IFormData {
   titulo: string;
@@ -72,9 +72,7 @@ export const DetalheDeTarefa: React.FC = () => {
             if (result instanceof Error) {
               alert(result.message);
             } else {
-              if (isSaveAndClose()) {
-                navigate("/tarefas");
-              }
+              navigate("/tarefas");
             }
           });
         }

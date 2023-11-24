@@ -1,13 +1,6 @@
 /* eslint-disable no-restricted-globals */
-import { CheckBox } from "@mui/icons-material";
-import {
-  Checkbox,
-  Icon,
-  IconButton,
-  Pagination,
-  Paper,
-  TextField,
-} from "@mui/material";
+
+import { Checkbox, Icon, IconButton, Paper } from "@mui/material";
 import LinearProgress from "@mui/material/LinearProgress";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -19,17 +12,14 @@ import TableRow from "@mui/material/TableRow";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { FerramentasDaListagem } from "../../shared/components";
-import { Environment } from "../../shared/environment";
-import { useDebounce } from "../../shared/hooks/UseDebounce";
 import { LayoutBaseDePagina } from "../../shared/layouts";
 import {
   IListagemTarefa,
-  PessoasService,
+  TarefaService,
 } from "../../shared/services/api/tarefas/TarefasService";
 
-export const ListagemDePessoas: React.FC = () => {
+export const ListagemDeTarefa: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { debounce } = useDebounce();
 
   const navigate = useNavigate();
 
@@ -48,25 +38,24 @@ export const ListagemDePessoas: React.FC = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    debounce(() => {
-      PessoasService.getAll().then((result) => {
-        setIsLoading(false);
-        if (result instanceof Error) {
-          alert(result.message);
-        } else {
-          const filteredRows = result.filter(
-            (tarefa) => Boolean(tarefa.status) !== true
-          );
-          console.log(filteredRows);
-          setRows(filteredRows);
-        }
-      });
+
+    TarefaService.getAll().then((result) => {
+      setIsLoading(false);
+      if (result instanceof Error) {
+        alert(result.message);
+      } else {
+        const filteredRows = result.filter(
+          (tarefa) => Boolean(tarefa.status) !== true
+        );
+        console.log(filteredRows);
+        setRows(filteredRows);
+      }
     });
   }, [busca, pagina, status]);
 
   const handleDelete = (id: number) => {
     if (confirm("Realmente deseja apagar?")) {
-      PessoasService.deleteById(id).then((result) => {
+      TarefaService.deleteById(id).then((result) => {
         if (result instanceof Error) {
           alert(result.message);
         } else {
@@ -81,11 +70,12 @@ export const ListagemDePessoas: React.FC = () => {
 
   const handleCheckboxChange = (event: any, id: number) => {
     const newStatus = event.target.checked;
-    setStatus(newStatus);
-    PessoasService.updateStatus(id, newStatus).then((result) => {
+
+    TarefaService.updateStatus(id, newStatus).then((result) => {
       if (result instanceof Error) {
         alert(result.message);
       } else {
+        setStatus(newStatus);
         setRows((oldRows) => {
           return oldRows.map((row) =>
             row.id === id ? { ...row, status: newStatus } : row
@@ -97,16 +87,11 @@ export const ListagemDePessoas: React.FC = () => {
 
   return (
     <LayoutBaseDePagina
-      titulo="Listagem de cidades"
+      titulo="Tarefas"
       barraDeFerramentas={
         <FerramentasDaListagem
           textoBotaoNovo="Nova"
-          mostrarInputBusca
-          textoDaBusca={busca}
           aoClicarEmNovo={() => navigate("/tarefas/detalhe/nova")}
-          aoMudarTextoDeBusca={(texto) =>
-            setSearchParams({ busca: texto, pagina: "1" }, { replace: true })
-          }
         />
       }
     >
@@ -144,38 +129,20 @@ export const ListagemDePessoas: React.FC = () => {
                   <Checkbox
                     value={status}
                     checked={row.status}
-                    onChange={(event) => handleCheckboxChange(event, row.id)}
+                    onChange={(event: any) =>
+                      handleCheckboxChange(event, row.id)
+                    }
                   />
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
 
-          {totalCount === 0 && !isLoading && (
-            <caption>{Environment.LISTAGEM_VAZIA}</caption>
-          )}
-
           <TableFooter>
             {isLoading && (
               <TableRow>
                 <TableCell colSpan={3}>
                   <LinearProgress variant="indeterminate" />
-                </TableCell>
-              </TableRow>
-            )}
-            {totalCount > 0 && totalCount > Environment.LIMITE_DE_LINHAS && (
-              <TableRow>
-                <TableCell colSpan={3}>
-                  <Pagination
-                    page={pagina}
-                    count={Math.ceil(totalCount / Environment.LIMITE_DE_LINHAS)}
-                    onChange={(_, newPage) =>
-                      setSearchParams(
-                        { busca, pagina: newPage.toString() },
-                        { replace: true }
-                      )
-                    }
-                  />
                 </TableCell>
               </TableRow>
             )}

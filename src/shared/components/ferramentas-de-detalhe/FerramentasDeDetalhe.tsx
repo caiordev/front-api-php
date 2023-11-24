@@ -8,6 +8,7 @@ import {
   Theme,
   Typography,
   useMediaQuery,
+  useTheme,
 } from "@mui/material";
 
 interface IFerramentasDeDetalhe {
