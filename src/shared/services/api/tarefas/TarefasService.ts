@@ -14,6 +14,7 @@ export interface IDetalheTarefa {
   status?: boolean;
 }
 
+//Todos os métodos para o acesso da api pelo axios.
 const getAll = async (): Promise<IListagemTarefa[] | Error> => {
   try {
     const { data } = await Api.get("/tarefa");
@@ -101,7 +102,7 @@ const updateStatus = async (
   }
 };
 
-export const PessoasService = {
+export const TarefaService = {
   getAll,
   create,
   getById,

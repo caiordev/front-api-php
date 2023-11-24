@@ -1,6 +1,7 @@
 import { createTheme } from "@mui/material";
 import { cyan, yellow } from "@mui/material/colors";
 
+//Criação do tema claro da aplicação.
 export const LightTheme = createTheme({
   palette: {
     primary: {

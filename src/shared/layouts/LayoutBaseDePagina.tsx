@@ -10,6 +10,7 @@ import { Box } from "@mui/system";
 import { ReactNode } from "react";
 import { useDrawerContext } from "../contexts";
 
+//interface para o componente básico de página.
 interface IlayoutBaseDePaginaProps {
   children?: React.ReactNode;
   titulo: string;
@@ -21,14 +22,15 @@ export const LayoutBaseDePagina: React.FC<IlayoutBaseDePaginaProps> = ({
   titulo,
   barraDeFerramentas,
 }) => {
+  //breakpoints para ser feito a responsividade.
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
-
   const mdDown = useMediaQuery((theme: Theme) => theme.breakpoints.down("md"));
 
   const theme = useTheme();
 
   const { toggleDrawerOpen } = useDrawerContext();
 
+  //Layout Base.
   return (
     <Box height="100%" display="flex" flexDirection="column" gap={1}>
       <Box
