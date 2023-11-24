@@ -7,11 +7,13 @@ type TVTextFieldProps = TextFieldProps & {
   name: string;
 };
 
+//Juntando o unform com o textField do materialUI, fazendo um textfield customizado.
 export const VTextField: React.FC<TVTextFieldProps> = ({ name, ...rest }) => {
   const { fieldName, registerField, defaultValue, error, clearError } =
     useField(name);
   const [value, setValue] = useState(defaultValue || "");
 
+  //garante o contexto do formulário.
   useEffect(() => {
     registerField({
       name: fieldName,
@@ -20,6 +22,7 @@ export const VTextField: React.FC<TVTextFieldProps> = ({ name, ...rest }) => {
     });
   }, [registerField, fieldName, value]);
 
+  //passamos todos os métodos do textfield para o customizado.
   return (
     <TextField
       {...rest}

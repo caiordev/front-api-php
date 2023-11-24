@@ -18,24 +18,23 @@ import {
   TarefaService,
 } from "../../shared/services/api/tarefas/TarefasService";
 
+// Componente para listagem de tarefas
 export const ListagemDeTarefa: React.FC = () => {
+  // Obtendo os parâmetros de busca da URL
   const [searchParams, setSearchParams] = useSearchParams();
-
+  // Função para navegar para outra rota
   const navigate = useNavigate();
 
+  // Estado para armazenar as linhas da tabela
   const [rows, setRows] = useState<IListagemTarefa[]>([]);
+
   const [totalCount, setTotalCount] = useState(0);
+  // Estado para armazenar se o formulário está carregando
   const [isLoading, setIsLoading] = useState(true);
+  // Estado para armazenar o status da tarefa
   const [status, setStatus] = useState(null);
 
-  const busca = useMemo(() => {
-    return searchParams.get("busca") || "";
-  }, [searchParams]);
-
-  const pagina = useMemo(() => {
-    return Number(searchParams.get("pagina") || "1");
-  }, [searchParams]);
-
+  // Efeito para buscar as tarefas quando os parâmetros de busca mudarem
   useEffect(() => {
     setIsLoading(true);
 
@@ -51,8 +50,9 @@ export const ListagemDeTarefa: React.FC = () => {
         setRows(filteredRows);
       }
     });
-  }, [busca, pagina, status]);
+  }, [status]);
 
+  // Função para deletar uma tarefa
   const handleDelete = (id: number) => {
     if (confirm("Realmente deseja apagar?")) {
       TarefaService.deleteById(id).then((result) => {
@@ -68,6 +68,7 @@ export const ListagemDeTarefa: React.FC = () => {
     }
   };
 
+  // Função para alterar o status de uma tarefa e definir se foi realizada ou não.
   const handleCheckboxChange = (event: any, id: number) => {
     const newStatus = event.target.checked;
 

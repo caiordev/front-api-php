@@ -6,7 +6,8 @@ import { useDrawerContext } from "../shared/contexts";
 
 export const AppRoutes = () => {
   const { setDrawerOptions } = useDrawerContext();
-
+  //O contexto do menu lateral serve para que ele possa ser alterado aqui
+  //ajudando na organização, pois criando a rota, já podemos definir ela no menu lateral caso precise.
   useEffect(() => {
     setDrawerOptions([
       {

@@ -7,28 +7,36 @@ import { FerramentasDeDetalhe } from "../../shared/components";
 import { LayoutBaseDePagina } from "../../shared/layouts";
 import { TarefaService } from "../../shared/services/api/tarefas/TarefasService";
 import * as yup from "yup";
-import { IVFormErrors } from "../../shared/forms/forms/IVFormErrors";
-import { useVForm, VForm, VTextField } from "../../shared/forms/forms";
+import { IVFormErrors } from "../../shared/forms/IVFormErrors";
+import { VForm, VTextField, useVForm } from "../../shared/forms";
 
+//Definindo a interfacce para os dados do formulário.
 interface IFormData {
   titulo: string;
   descricao: string;
 }
 
+//Definindo o esquema de validação para os dados do formulário.
 const formValidationSchema: yup.ObjectSchema<IFormData> = yup.object({
   titulo: yup.string().required(),
   descricao: yup.string().required(),
 });
 
 export const DetalheDeTarefa: React.FC = () => {
+  //Obtendo o ID da tarefa através dos parâmetros da rota.
   const { id = "nova" } = useParams<"id">();
+  //Funcão para navegar para outra rota.
   const navigate = useNavigate();
 
-  const { formRef, save, saveAndClose, isSaveAndClose } = useVForm();
+  //obtendo as funções e referência do formulário.
+  const { formRef, save } = useVForm();
+
+  // Estado para armazenar se o formulário está carregando
 
   const [isLoading, setIsLoading] = useState(false);
+  // Estado para armazenar o nome da tarefa
   const [nome, setNome] = useState("");
-
+  // Efeito para buscar os detalhes da tarefa quando o ID mudar
   useEffect(() => {
     if (id !== "nova") {
       setIsLoading(true);
@@ -48,6 +56,7 @@ export const DetalheDeTarefa: React.FC = () => {
     }
   }, [id]);
 
+  // Função para salvar os dados do formulário
   const handleSave = (dados: IFormData) => {
     formValidationSchema
       .validate(dados, { abortEarly: false })
@@ -88,6 +97,7 @@ export const DetalheDeTarefa: React.FC = () => {
       });
   };
 
+  // Função para deletar a tarefa
   const handleDelete = (id: number) => {
     if (confirm("Realmente deseja apagar?")) {
       TarefaService.deleteById(id).then((result) => {
@@ -101,6 +111,7 @@ export const DetalheDeTarefa: React.FC = () => {
     }
   };
 
+  // Renderizando o componente
   return (
     <LayoutBaseDePagina
       titulo={id === "nova" ? "Nova Pessoa" : nome}

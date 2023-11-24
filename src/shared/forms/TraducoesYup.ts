@@ -1,5 +1,6 @@
 import { setLocale } from "yup";
 
+//Todas as traduções do yup.
 setLocale({
   mixed: {
     default: "Campo não é válido",
