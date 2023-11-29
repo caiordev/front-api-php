@@ -11,7 +11,7 @@ Este projeto foi desenvolvido utilizando as melhores práticas de desenvolviment
 
 # 🧠 About
 
-Este projeto é uma crud para tarefas que contém os seguintes requisitos:
+Este projeto é um crud para tarefas que contém os seguintes requisitos:
 
 - [x] Tela de cadastro de tarefa.
 - [x] Tela de atualização.
